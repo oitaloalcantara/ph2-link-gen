@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Links de Afiliado | Protocolo H72</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(56, 182, 255, 0.5);
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 20px rgba(56, 182, 255, 0.8);
+        }
+        .link-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(56, 182, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .link-box:hover {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: rgba(56, 182, 255, 0.6);
+        }
+        .copy-btn {
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(56, 182, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(56, 182, 255, 0);
+            }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 font-sans text-gray-100">
+    <div class="w-full max-w-md mx-auto">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-2 text-blue-400">
+                <i class="fas fa-link mr-2"></i>Protocolo H72 | Link Gen
+            </h1>
+            <p class="text-blue-200">Crie seus links de afiliado de forma rápida e fácil</p>
+        </div>
+
+        <div class="bg-gray-900 bg-opacity-70 rounded-xl p-6 shadow-xl border border-blue-900 border-opacity-50">
+            <form id="affiliateForm" class="space-y-6">
+                <div>
+                    <label for="ticketType" class="block text-sm font-medium text-blue-300 mb-1">
+                        <i class="fas fa-ticket-alt mr-2"></i>Selecione o tipo de ticket
+                    </label>
+                    <select id="ticketType" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-blue-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition duration-200">
+                        <option value="37">Ticket R$37,00</option>
+                        <option value="29">Ticket R$29,90</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="affiliateUrl" class="block text-sm font-medium text-blue-300 mb-1">
+                        <i class="fas fa-external-link-alt mr-2"></i>Cole seu link de afiliado
+                    </label>
+                    <input type="text" id="affiliateUrl" placeholder="https://exemplo.com/checkout?aff=12345" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-blue-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition duration-200">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg glow-effect transition duration-200 flex items-center justify-center">
+                    <i class="fas fa-hammer mr-2"></i> Construir Link
+                </button>
+            </form>
+
+            <div id="resultContainer" class="mt-6 hidden">
+                <div class="link-box rounded-lg p-4 mb-4">
+                    <p class="text-sm text-blue-300 mb-2">
+                        <i class="fas fa-link mr-2"></i>Seu link de afiliado:
+                    </p>
+                    <div class="flex items-center">
+                        <input id="generatedLink" type="text" readonly class="flex-1 bg-gray-700 text-blue-100 px-3 py-2 rounded-l-lg border border-r-0 border-blue-900 focus:outline-none">
+                        <button id="copyBtn" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg border border-blue-700">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center text-xs text-blue-300 mt-4">
+                    <p><i class="fas fa-info-circle mr-1"></i> Seu link está pronto para ser compartilhado!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-blue-400 mt-8 opacity-70">
+            <p>© 2025 Protocolo H72. Todos os direitos reservados.</p>
+        </div>
+    </div>
+
+    <script>
+        // Defina seu domínio personalizado aqui
+        const meuDominioPersonalizado = "https://inlead.digital/protocoloh72pv2";
+        
+        document.getElementById('affiliateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const ticketType = document.getElementById('ticketType').value;
+            const affiliateUrl = document.getElementById('affiliateUrl').value;
+            
+            // Extrair o affId da URL
+            let affId = '';
+            const affParam = affiliateUrl.match(/aff=([^&]*)/);
+            if (affParam && affParam[1]) {
+                affId = affParam[1];
+            }
+            
+            if (!affId) {
+                alert('Não foi possível encontrar o ID de afiliado no URL fornecido. Certifique-se de que o link contém "aff=SEU_ID"');
+                return;
+            }
+            
+            // Construir o novo link
+            const newLink = `https://${meuDominioPersonalizado}/?aff=${affId}&pid=${ticketType}`;
+            
+            // Exibir o resultado
+            document.getElementById('generatedLink').value = newLink;
+            document.getElementById('resultContainer').classList.remove('hidden');
+            
+            // Rolagem suave para o resultado
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Copiar link para a área de transferência
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const linkInput = document.getElementById('generatedLink');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            // Feedback visual
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            copyBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            
+            setTimeout(function() {
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                copyBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
